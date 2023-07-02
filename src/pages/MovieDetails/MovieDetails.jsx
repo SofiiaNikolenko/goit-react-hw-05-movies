@@ -1,5 +1,6 @@
 import { Link, useParams, Outlet, useLocation } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Suspense } from 'react';
+import Loader from 'components/Loader/Loader';
 import css from './MovieDetails.module.css';
 
 const MovieDetails = () => {
@@ -86,7 +87,9 @@ const MovieDetails = () => {
         </li>
       </ul>
 
-      <Outlet />
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
     </>
   );
 };

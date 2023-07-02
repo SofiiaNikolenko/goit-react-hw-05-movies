@@ -27,8 +27,6 @@ const Cast = () => {
       .catch(err => console.error(err));
   }, [movieId]);
 
-  console.log(cast);
-
   return (
     <div className={css.cardContainer}>
       {cast.map(castPerson => (
