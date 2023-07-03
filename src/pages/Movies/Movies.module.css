@@ -1,0 +1,39 @@
+.searchForm {
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  padding: 5px;
+  width: 200px;
+  margin-right: 10px;
+}
+
+.searchButton {
+  padding: 5px 10px;
+  background-color: #f1f1f1;
+  border: none;
+  cursor: pointer;
+}
+
+.movieList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.movieItem {
+  margin-bottom: 10px;
+}
+
+.movieLink {
+  text-decoration: none;
+}
+
+.movieTitle {
+  margin: 0;
+  font-size: 18px;
+  color: black;
+}
+
+.movieTitle:hover {
+  color: gray;
+}

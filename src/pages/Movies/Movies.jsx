@@ -1,67 +1,51 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import getMovies from '../../api/Movies-api';
+import css from './Movies.module.css';
 
 const Movies = () => {
-  const [value, setValue] = useState('');
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const movieName = searchParams.get('query') ?? '';
   const location = useLocation();
-  const [searchClicked, setSearchClicked] = useState(false);
 
   useEffect(() => {
-    if (searchClicked) {
-      const options = {
-        method: 'GET',
-        headers: {
-          accept: 'application/json',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NWNhZTlkZDZmNDIwODRkNWIxNTBlOGNhZmUzZDBmMSIsInN1YiI6IjY0OWY0NjQ3M2FmOTI5MDBjOGY0MmE2MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.YZn_lK4ht5wkWyPYzyypO1pBwfY3ejbHkrGmxQwrBA4',
-        },
-      };
-
-      fetch(
-        `https://api.themoviedb.org/3/search/movie?query=${value}&include_adult=false&language=en-US&page=1`,
-        options
-      )
-        .then(response => response.json())
+    if (movieName) {
+      getMovies(movieName)
         .then(data => {
           setMovies(data.results);
         })
         .catch(err => console.error(err));
     }
-  }, [searchClicked, value]);
+  }, [movieName]);
 
   const handleSubmit = event => {
-    event.preventDefault();
-    setSearchClicked(true);
-  };
-
-  const handleChange = event => {
-    setValue(event.currentTarget.value.toLowerCase());
-    if (event.target.value === '') {
-      return setSearchParams({});
-    }
-    setSearchParams({ query: event.target.value });
+    event.preventDefault(event);
+    setSearchParams({ query: event.target[0].value });
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form className={css.searchForm} onSubmit={handleSubmit}>
         <input
           type="text"
           name="movie"
-          value={movieName}
           placeholder="Search movie"
-          onChange={handleChange}
+          className={css.searchInput}
         />
-        <button type="submit">Search</button>
+        <button type="submit" className={css.searchButton}>
+          Search
+        </button>
       </form>
-      <ul>
+      <ul className={css.movieList}>
         {movies.map(movie => (
-          <li key={movie.id}>
-            <Link to={`/movies/${movie.id}`} state={{ from: location }}>
-              <h3>{movie.title}</h3>
+          <li key={movie.id} className={css.movieItem}>
+            <Link
+              to={`/movies/${movie.id}`}
+              state={{ from: location }}
+              className={css.movieLink}
+            >
+              <h3 className={css.movieTitle}>{movie.title}</h3>
             </Link>
           </li>
         ))}

@@ -1,5 +1,6 @@
 import { Link, useParams, Outlet, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState, Suspense } from 'react';
+import getMovieDetails from '../../api/MovieDetails-api';
 import Loader from 'components/Loader/Loader';
 import css from './MovieDetails.module.css';
 
@@ -11,20 +12,7 @@ const MovieDetails = () => {
   const backLink = useRef(location.state?.from || '/');
 
   useEffect(() => {
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NWNhZTlkZDZmNDIwODRkNWIxNTBlOGNhZmUzZDBmMSIsInN1YiI6IjY0OWY0NjQ3M2FmOTI5MDBjOGY0MmE2MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.YZn_lK4ht5wkWyPYzyypO1pBwfY3ejbHkrGmxQwrBA4',
-      },
-    };
-
-    fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
-      options
-    )
-      .then(response => response.json())
+    getMovieDetails(movieId)
       .then(data => {
         setMovieDetails(data);
         setMovieImage(data.poster_path);

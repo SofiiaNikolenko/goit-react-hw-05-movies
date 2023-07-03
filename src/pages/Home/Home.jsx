@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import getTrendingMovies from '../../api/Home-api';
 import css from './Home.module.css';
 
 const Home = () => {
@@ -7,20 +8,7 @@ const Home = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NWNhZTlkZDZmNDIwODRkNWIxNTBlOGNhZmUzZDBmMSIsInN1YiI6IjY0OWY0NjQ3M2FmOTI5MDBjOGY0MmE2MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.YZn_lK4ht5wkWyPYzyypO1pBwfY3ejbHkrGmxQwrBA4',
-      },
-    };
-
-    fetch(
-      'https://api.themoviedb.org/3/trending/all/day?language=en-US',
-      options
-    )
-      .then(response => response.json())
+    getTrendingMovies()
       .then(data => {
         setMovies(data.results);
       })
